@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Random;
 
 import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
 
@@ -15,7 +16,7 @@ public class WorldInfo {
     public static double OxygenGenScale = 3.0d;
     public static double WaterGenThreshold = 0.5;
     public static double WaterGenScale = 2.0d;
-    public static long SeedOfWorld = 1145141919810L;
+    public static Long SeedOfWorld = null;
     public static int NoiseScale = 16;
     public static double NoiseDynamics = 1.5d;
     public static double DynamicsScale = 13.0d;
@@ -45,7 +46,12 @@ public class WorldInfo {
             WaterGenThreshold = Double.parseDouble(worldGenProperties.getProperty("WaterGenThreshold"));
             WaterGenScale = Double.parseDouble(worldGenProperties.getProperty("WaterGenScale"));
             NoiseScale = Integer.parseInt(worldGenProperties.getProperty("NoiseScale"));
-            SeedOfWorld = Long.parseLong(worldGenProperties.getProperty("NoiseScale"));
+            String seed = worldGenProperties.getProperty("SeedOfWorld");
+            if (seed.equals("*")){
+                SeedOfWorld = new Random().nextLong();
+            }else {
+                SeedOfWorld = Long.parseLong(seed);
+            }
 
             bufferedReader.close();
 

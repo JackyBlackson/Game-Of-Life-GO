@@ -2,6 +2,7 @@ package com.jackyblackson.gameoflifego.server.info;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -52,6 +53,14 @@ public class Pos implements Serializable {
         this.posY = y;
     }
 
+    public Pos shiftX(double shift){
+        return new Pos(this.posX + shift, this.posY);
+    }
+
+    public Pos shiftY(double shift){
+        return new Pos(this.posX, this.posY + shift);
+    }
+
     public static Pos getChunkPos(Pos worldPos){
         return new Pos((Math.floor(worldPos.getX() / 16.0)), Math.floor(worldPos.getY() / 16.0));
     }
@@ -73,7 +82,7 @@ public class Pos implements Serializable {
     }
 
     public static Pos parsePos(String formatString){
-        String[] s = formatString.split(", ");
+        String[] s = formatString.split(",");
         if (s.length == 2){
             return new Pos(Double.parseDouble(s[0]), Double.parseDouble(s[1]));
         } else {
@@ -84,6 +93,18 @@ public class Pos implements Serializable {
 
     @Override
     public String toString(){
-        return (posX + ", " + posY);
+        return (posX + "," + posY);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Pos){
+            Pos p = (Pos) obj;
+            if(Objects.equals(p.getX(), this.posX) && Objects.equals(p.getY(), this.posY))
+                return true;
+            else return false;
+        } else {
+            return false;
+        }
     }
 }
