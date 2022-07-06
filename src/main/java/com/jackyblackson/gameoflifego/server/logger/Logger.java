@@ -22,8 +22,7 @@ public class Logger {
             }
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
             raf.seek(raf.length());
-            if(!GameInfo.ShowDebugInfo && imp == Importance.DEBUG);
-            else {
+            if (GameInfo.ShowDebugInfo || imp != Importance.DEBUG) {
                 raf.writeBytes("[" + currentTime + "] " + "[" + imp.toString() + "] " + text + "\r\n");
                 System.out.println("[" + currentTime + "] " + "[" + imp.toString() + "] " + text + "\r\n");
             }

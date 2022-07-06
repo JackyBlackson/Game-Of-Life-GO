@@ -15,6 +15,7 @@ import com.jackyblackson.gameoflifego.server.tiles.Tile;
 import com.jackyblackson.gameoflifego.server.tiles.Vacuum;
 
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -88,6 +89,22 @@ public class MapManager {
             try {
                 ObjectInputStream oi = new ObjectInputStream(new FileInputStream(areaFile));
                 Area a = (Area) oi.readObject();
+                //Find all the cells in the area
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 4; y++){
+                        Chunk c = a.getChunkAt(x, y);
+                        if(c != null){
+                            for (int cx = 0; cx < 16; cx++) {
+                                for (int cy = 0; cy < 16; cy++) {
+                                    Tile t = c.getTileAt(cx, cy);
+                                    if (t instanceof Cell) {
+                                        nCellList.add((Cell) t);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 managedAreaHashMap.put(a.getAreaPos().toString(), a);
                 return a;
             } catch (IOException | ClassNotFoundException e) {
@@ -123,7 +140,7 @@ public class MapManager {
         Chunk c = getChunkAt(Pos.getChunkPos(tile.getWorldPos()));
         Pos posInChunk = Pos.getPosInChunk(tile.getWorldPos());
         c.setTileAt(posInChunk.getX().intValue(), posInChunk.getY().intValue(), tile);
-        Log(Importance.INFO, "The tile at (" + tile.getWorldPos() + ") is " + getTileAt(tile.getWorldPos()));
+        //Log(Importance.INFO, "The tile at (" + tile.getWorldPos() + ") is " + getTileAt(tile.getWorldPos()));
     }
 
     public Chunk getChunkAt(Pos chunkPos) {
@@ -162,14 +179,27 @@ public class MapManager {
         for (Iterator<Cell> it = this.cellList.iterator(); it.hasNext(); ) {
 
             Cell cell = it.next();
-            System.out.println("Now processing Cell at (" + cell.getWorldPos() + ")...");
+            //System.out.println("Now processing Cell at (" + cell.getWorldPos() + ")...");
             //检测自己：
             processTiles(cell);
-            //开始检测这个细胞周围的四个细胞
-            processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(0.0)));       //左
-            processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(0.0)));      //右
-            processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(1.0)));       //上
-            processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(-1.0)));      //下
+            //开始检测这个细胞周围的八个细胞，如果是细胞那么自动跳过
+            if (! (getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(0.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(0.0)));       //右
+            if (! (getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(0.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(0.0)));      //左
+            if (! (getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(1.0)));       //上
+            if (! (getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(-1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(0.0).shiftY(-1.0)));      //下
+
+            if (! (getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(1.0)));       //右上
+            if (! (getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(-1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(1.0).shiftY(-1.0)));       //右下
+            if (! (getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(1.0)));      //左上
+            if (! (getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(-1.0)) instanceof Cell))
+                processTiles(MapManager.getInstance().getTileAt(cell.getWorldPos().shiftX(-1.0).shiftY(-1.0)));      //左下
         }
         //开始更改所有添加的tile
         executeAllTask();
@@ -274,7 +304,7 @@ public class MapManager {
             amt++;
         }
         //返回一个String，方便与配置文件比较
-        Log(Importance.DEBUG, "[CellAmountCalculation] The tile at (" + tile.getWorldPos() + ") has " + amt + " cell around.");
+        //Log(Importance.NOTICE, "[CellAmountCalculation] The tile at (" + tile.getWorldPos() + ") has " + amt + " cell around.");
         return Integer.toString(amt);
     }
 

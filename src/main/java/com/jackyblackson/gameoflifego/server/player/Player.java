@@ -1,6 +1,10 @@
 package com.jackyblackson.gameoflifego.server.player;
 
-public class Player {
+import com.jackyblackson.gameoflifego.server.main.ServerMain;
+
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String name;
     private String color;
 

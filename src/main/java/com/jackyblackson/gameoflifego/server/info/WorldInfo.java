@@ -2,6 +2,7 @@ package com.jackyblackson.gameoflifego.server.info;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Random;
@@ -27,38 +28,43 @@ public class WorldInfo {
 
     static{
         try {
-            Properties worldGenProperties = new Properties();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("Config/worldgen.properties"));
-            worldGenProperties.load(bufferedReader);
-
-            AsteroidThreshold = Double.parseDouble(worldGenProperties.getProperty("AsteroidThreshold"));
-            NoiseDynamics = Double.parseDouble(worldGenProperties.getProperty("NoiseDynamics"));
-            DynamicsScale = Double.parseDouble(worldGenProperties.getProperty("DynamicsScale"));
-            DynamicsShift = Double.parseDouble(worldGenProperties.getProperty("DynamicsShift"));
-            Octave1Amp = Double.parseDouble(worldGenProperties.getProperty("Octave1Amp"));
-            Octave2Amp = Double.parseDouble(worldGenProperties.getProperty("Octave2Amp"));
-            Octave3Amp = Double.parseDouble(worldGenProperties.getProperty("Octave3Amp"));
-
-            CarbonGenThreshold = Double.parseDouble(worldGenProperties.getProperty("CarbonGenThreshold"));
-            CarbonGenScale = Double.parseDouble(worldGenProperties.getProperty("CarbonGenScale"));
-            OxygenGenThreshold = Double.parseDouble(worldGenProperties.getProperty("OxygenGenThreshold"));
-            OxygenGenScale = Double.parseDouble(worldGenProperties.getProperty("OxygenGenScale"));
-            WaterGenThreshold = Double.parseDouble(worldGenProperties.getProperty("WaterGenThreshold"));
-            WaterGenScale = Double.parseDouble(worldGenProperties.getProperty("WaterGenScale"));
-            NoiseScale = Integer.parseInt(worldGenProperties.getProperty("NoiseScale"));
-            String seed = worldGenProperties.getProperty("SeedOfWorld");
-            if (seed.equals("*")){
-                SeedOfWorld = new Random().nextLong();
-            }else {
-                SeedOfWorld = Long.parseLong(seed);
-            }
-
-            bufferedReader.close();
+            loadProperties("Config/worldgen.properties");
+            GameInfo.loadGameInfo("Config/game.properties");
 
             Log(Importance.INFO, "Successfully read in world generation properties");
         } catch (Exception ex){
             Log(Importance.SEVERE, ex.getLocalizedMessage());
             Log(Importance.SEVERE, Arrays.toString(ex.getStackTrace()));
         }
+    }
+
+    public static void loadProperties(String path) throws IOException {
+        Properties worldGenProperties = new Properties();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+        worldGenProperties.load(bufferedReader);
+
+        AsteroidThreshold = Double.parseDouble(worldGenProperties.getProperty("AsteroidThreshold"));
+        NoiseDynamics = Double.parseDouble(worldGenProperties.getProperty("NoiseDynamics"));
+        DynamicsScale = Double.parseDouble(worldGenProperties.getProperty("DynamicsScale"));
+        DynamicsShift = Double.parseDouble(worldGenProperties.getProperty("DynamicsShift"));
+        Octave1Amp = Double.parseDouble(worldGenProperties.getProperty("Octave1Amp"));
+        Octave2Amp = Double.parseDouble(worldGenProperties.getProperty("Octave2Amp"));
+        Octave3Amp = Double.parseDouble(worldGenProperties.getProperty("Octave3Amp"));
+
+        CarbonGenThreshold = Double.parseDouble(worldGenProperties.getProperty("CarbonGenThreshold"));
+        CarbonGenScale = Double.parseDouble(worldGenProperties.getProperty("CarbonGenScale"));
+        OxygenGenThreshold = Double.parseDouble(worldGenProperties.getProperty("OxygenGenThreshold"));
+        OxygenGenScale = Double.parseDouble(worldGenProperties.getProperty("OxygenGenScale"));
+        WaterGenThreshold = Double.parseDouble(worldGenProperties.getProperty("WaterGenThreshold"));
+        WaterGenScale = Double.parseDouble(worldGenProperties.getProperty("WaterGenScale"));
+        NoiseScale = Integer.parseInt(worldGenProperties.getProperty("NoiseScale"));
+        String seed = worldGenProperties.getProperty("SeedOfWorld");
+        if (seed.equals("*")){
+            SeedOfWorld = new Random().nextLong();
+        }else {
+            SeedOfWorld = Long.parseLong(seed);
+        }
+
+        bufferedReader.close();
     }
 }

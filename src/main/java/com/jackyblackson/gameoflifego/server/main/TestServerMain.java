@@ -11,12 +11,13 @@ import com.jackyblackson.gameoflifego.server.tiles.Cell;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.Map;
 
 import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
 
 public class TestServerMain {
     //服务端开启入口
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Entrance(args);
 
         ServerMain.entrance(args);
@@ -59,8 +60,10 @@ public class TestServerMain {
 
             printArea();
 
+            MapManager.getInstance().saveAllArea();
+
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

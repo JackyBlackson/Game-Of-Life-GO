@@ -6,14 +6,14 @@ import com.jackyblackson.gameoflifego.server.map.area.Area;
 
 public class SaveInfo {
     public static String getDirForArea(Area a){
-        return "Saves/" + GameInfo.Save + "/Area/(" + a.getAreaPos() + ").gla";
+        return "Saves/" + GameInfo.SaveDirectory + "/Area/(" + a.getAreaPos() + ").gla";
     }
 
     public static String getDirForArea(Pos areaPos){
-        return "Saves/" + GameInfo.Save + "/Area/(" + areaPos + ").gla";
+        return "Saves/" + GameInfo.SaveDirectory + "/Area/(" + areaPos + ").gla";
     }
 
     public static String getAreaDir(){
-        return "Saves/" + GameInfo.Save + "/Area";
+        return "Saves/" + GameInfo.SaveDirectory + "/Area";
     }
 }

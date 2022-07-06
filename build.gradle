@@ -2,6 +2,12 @@ plugins {
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.jackyblackson.gameoflifego.server.main.TestServerMain'
+    }
+}
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 

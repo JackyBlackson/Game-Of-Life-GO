@@ -4,5 +4,6 @@ public enum Importance {
     DEBUG,
     INFO,
     WARNING,
-    SEVERE
+    SEVERE,
+    NOTICE
 }
