@@ -10,8 +10,6 @@ import com.jackyblackson.gameoflifego.server.task.TaskGenerateChunk;
 import com.jackyblackson.gameoflifego.server.tiles.Cell;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.Map;
 
 import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
 
@@ -55,7 +53,7 @@ public class TestServerMain {
 
         while (true) {
 
-            MapManager.getInstance().UpdateMap();
+            MapManager.getInstance().updateMap();
             System.out.println("=================================================================================");
 
             printArea();

@@ -23,6 +23,10 @@ public class GameInfo {
     public static String[] AmountNeedForBirth = {"3", "6"};
     public static String[] AmountNeedForSurvive = {"2", "3"};
 
+    public static int MaxTicksPerSecond = 20;
+    public static int TicksPerEvolution = 20;
+    public static int TicksPerSave = 100;
+
     public static void loadGameInfo(String path) throws Exception {
         loadGameInfoFromFile(path);
 
@@ -69,6 +73,9 @@ public class GameInfo {
         ShowDebugInfo = Boolean.parseBoolean(gameProperties.getProperty("ShowDebugInfo"));
         AmountNeedForBirth = gameProperties.getProperty("AmountNeedForBirth").split(",");
         AmountNeedForSurvive = gameProperties.getProperty("AmountNeedForSurvive").split(",");
+        MaxTicksPerSecond = Integer.parseInt(gameProperties.getProperty("MaxTicksPerSecond"));
+        TicksPerEvolution = Integer.parseInt(gameProperties.getProperty("TicksPerEvolution"));
+        TicksPerSave = Integer.parseInt(gameProperties.getProperty("TicksPerSave"));
 
         bufferedReader.close();
     }

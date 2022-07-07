@@ -3,7 +3,6 @@ package com.jackyblackson.gameoflifego.server.map.manager;
 import com.jackyblackson.gameoflifego.server.info.GameInfo;
 import com.jackyblackson.gameoflifego.server.info.Importance;
 import com.jackyblackson.gameoflifego.server.info.Pos;
-import com.jackyblackson.gameoflifego.server.info.WorldInfo;
 import com.jackyblackson.gameoflifego.server.map.area.Area;
 import com.jackyblackson.gameoflifego.server.map.chunk.Chunk;
 import com.jackyblackson.gameoflifego.server.map.generator.ChunkGenerator;
@@ -15,7 +14,6 @@ import com.jackyblackson.gameoflifego.server.tiles.Tile;
 import com.jackyblackson.gameoflifego.server.tiles.Vacuum;
 
 import java.io.*;
-import java.lang.management.ManagementFactory;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -173,7 +171,7 @@ public class MapManager {
         }
     }
 
-    public void UpdateMap() {
+    public void updateMap() {
         cellList = nCellList;
         nCellList = new HashSet<>();
         for (Iterator<Cell> it = this.cellList.iterator(); it.hasNext(); ) {
