@@ -1,8 +1,8 @@
 package com.jackyblackson.gameoflifego.server.task;
 
-import com.jackyblackson.gameoflifego.server.info.Pos;
-import com.jackyblackson.gameoflifego.server.tiles.Tile;
-import com.jackyblackson.gameoflifego.server.tiles.Vacuum;
+import com.jackyblackson.gameoflifego.shared.common.Pos;
+import com.jackyblackson.gameoflifego.shared.tiles.Tile;
+import com.jackyblackson.gameoflifego.shared.tiles.Vacuum;
 
 public class TaskChangeTile extends TileTask{
     public Tile getTileToChange() {

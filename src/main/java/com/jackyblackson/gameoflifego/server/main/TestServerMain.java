@@ -1,24 +1,36 @@
 package com.jackyblackson.gameoflifego.server.main;
 
-import com.jackyblackson.gameoflifego.server.info.Importance;
-import com.jackyblackson.gameoflifego.server.info.Pos;
-import com.jackyblackson.gameoflifego.server.map.chunk.Chunk;
-import com.jackyblackson.gameoflifego.server.map.generator.ChunkGenerator;
-import com.jackyblackson.gameoflifego.server.map.manager.MapManager;
-import com.jackyblackson.gameoflifego.server.player.Player;
+import com.jackyblackson.gameoflifego.server.info.GameInfo;
+import com.jackyblackson.gameoflifego.server.net.Accepter;
+import com.jackyblackson.gameoflifego.server.net.TCPServer;
+import com.jackyblackson.gameoflifego.shared.common.Importance;
+import com.jackyblackson.gameoflifego.shared.common.Pos;
 import com.jackyblackson.gameoflifego.server.task.TaskGenerateChunk;
-import com.jackyblackson.gameoflifego.server.tiles.Cell;
+import com.jackyblackson.gameoflifego.shared.map.chunk.Chunk;
+import com.jackyblackson.gameoflifego.shared.map.generator.ChunkGenerator;
+import com.jackyblackson.gameoflifego.shared.map.manager.MapManager;
+import com.jackyblackson.gameoflifego.shared.player.Player;
+import com.jackyblackson.gameoflifego.shared.player.PlayerSet;
+import com.jackyblackson.gameoflifego.shared.tiles.Cell;
 
 import java.io.IOException;
 
-import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
+import static com.jackyblackson.gameoflifego.server.main.ServerMain.loadGameInfo;
+import static com.jackyblackson.gameoflifego.shared.logger.Logger.Log;
 
 public class TestServerMain {
     //服务端开启入口
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Entrance(args);
+        MapManager.getInstance();
+        WatchDog.getInstance();
+        TCPServer.getInstance();
+        Accepter.getInstance();
+        PlayerSet.getInstance();
+        loadGameInfo();
+        //ServerMain.entrance(args);
+        firstGen();
 
-        ServerMain.entrance(args);
 
 
         Player player = new Player("Jacky_Blackson", "FFFFFF");
@@ -86,6 +98,17 @@ public class TestServerMain {
             String[] sox = cox.toString().split("\n");
             System.out.println(sxx[y] + sox[y]);
         }
+    }
+
+    private static void firstGen() throws IOException {
+        //遍历用户指定的初始区域，并生成 / 加载区块
+        for (long x = -GameInfo.SpawnRange; x < GameInfo.SpawnRange; x++) {
+            for (long y = -GameInfo.SpawnRange; y < GameInfo.SpawnRange; y++) {
+                MapManager.getInstance().getChunkAt(new Pos((double) x, (double) y));
+            }
+        }
+
+        MapManager.getInstance().saveMap();
     }
 
 

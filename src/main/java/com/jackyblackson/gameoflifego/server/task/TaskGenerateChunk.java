@@ -1,6 +1,6 @@
 package com.jackyblackson.gameoflifego.server.task;
 
-import com.jackyblackson.gameoflifego.server.info.Pos;
+import com.jackyblackson.gameoflifego.shared.common.Pos;
 
 public class TaskGenerateChunk extends ChunkTask {
     public TaskGenerateChunk(Pos chunkPos){

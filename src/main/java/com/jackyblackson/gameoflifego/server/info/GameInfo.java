@@ -1,6 +1,9 @@
 package com.jackyblackson.gameoflifego.server.info;
 
-import com.jackyblackson.gameoflifego.server.map.saves.SaveInfo;
+import com.jackyblackson.gameoflifego.shared.common.Importance;
+import com.jackyblackson.gameoflifego.shared.common.Utility;
+import com.jackyblackson.gameoflifego.shared.map.saves.SaveInfo;
+import com.jackyblackson.gameoflifego.shared.player.PlayerSet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
+import static com.jackyblackson.gameoflifego.shared.logger.Logger.Log;
 
 public class GameInfo {
     public static String SaveDirectory = "Save_At_" + new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(new Date(System.currentTimeMillis()));
@@ -26,10 +29,13 @@ public class GameInfo {
     public static int MaxTicksPerSecond = 20;
     public static int TicksPerEvolution = 20;
     public static int TicksPerSave = 100;
+    public static int ServerPort = 26575;
+
+    public static long MaxTickLength = 60000;
 
     public static void loadGameInfo(String path) throws Exception {
         loadGameInfoFromFile(path);
-
+        WorldGenInfo.loadProperties("Config/worldgen.properties");
         //Preparing folders for the game when starting
         if(!new File("Saves").exists())
             new File("Saves").mkdir();
@@ -48,12 +54,14 @@ public class GameInfo {
                 Files.copy(new File("Config/game.properties").toPath(), new File("Saves/" + SaveDirectory + "/LocalConfig/game.properties").toPath());
                 //更新配置文件里的通配符，包括seed和文件目录
                 Utility.updateProperties("Saves/" + SaveDirectory + "/LocalConfig/game.properties", "SaveDirectory", SaveDirectory);
-                Utility.updateProperties("Saves/" + SaveDirectory + "/LocalConfig/worldgen.properties", "SeedOfWorld", WorldInfo.SeedOfWorld.toString());
+                Utility.updateProperties("Saves/" + SaveDirectory + "/LocalConfig/worldgen.properties", "SeedOfWorld", WorldGenInfo.SeedOfWorld.toString());
             }
         } else {    //If the map already have local config file, then load it:
             loadGameInfoFromFile("Saves/" + SaveDirectory + "/LocalConfig/game.properties");
-            WorldInfo.loadProperties("Saves/" + SaveDirectory + "/LocalConfig/world.properties");
+            WorldGenInfo.loadProperties("Saves/" + SaveDirectory + "/LocalConfig/world.properties");
         }
+        //读入玩家信息，如果存在的话：
+        PlayerSet.getInstance().loadPlayerSet();
 
         Log(Importance.INFO, "Successfully read in game properties");
     }
@@ -76,6 +84,8 @@ public class GameInfo {
         MaxTicksPerSecond = Integer.parseInt(gameProperties.getProperty("MaxTicksPerSecond"));
         TicksPerEvolution = Integer.parseInt(gameProperties.getProperty("TicksPerEvolution"));
         TicksPerSave = Integer.parseInt(gameProperties.getProperty("TicksPerSave"));
+        ServerPort = Integer.parseInt((gameProperties.getProperty("ServerPort")));
+        MaxTickLength = Long.parseLong(gameProperties.getProperty("MaxTickLength"));
 
         bufferedReader.close();
     }

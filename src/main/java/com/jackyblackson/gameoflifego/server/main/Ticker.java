@@ -1,13 +1,12 @@
 package com.jackyblackson.gameoflifego.server.main;
 
 import com.jackyblackson.gameoflifego.server.info.GameInfo;
-import com.jackyblackson.gameoflifego.server.info.Importance;
-import com.jackyblackson.gameoflifego.server.info.WorldInfo;
-import com.jackyblackson.gameoflifego.server.map.manager.MapManager;
+import com.jackyblackson.gameoflifego.shared.common.Importance;
+import com.jackyblackson.gameoflifego.shared.map.manager.MapManager;
 
 import java.io.IOException;
 
-import static com.jackyblackson.gameoflifego.server.logger.Logger.Log;
+import static com.jackyblackson.gameoflifego.shared.logger.Logger.Log;
 
 public class Ticker implements Runnable{
     private long timeStamp = System.currentTimeMillis();
@@ -17,30 +16,39 @@ public class Ticker implements Runnable{
 
     @Override
     public void run() {
-        //更新当前的时间戳，（开始计时）
-        this.timeStamp = System.currentTimeMillis();
+        Log(Importance.INFO, "[Ticker] Now the world is ticking: TICK TOCK TICK TOCK TICK TOCK");
 
-        //处理网络需求
+        while(true) {//更新当前的时间戳，（开始计时）
+            this.timeStamp = System.currentTimeMillis();
 
-        //处理地图更新，如果可行的话
-        if(tickTimes - updateTimes >= GameInfo.TicksPerEvolution){
-            MapManager.getInstance().updateMap();
-            updateTimes = tickTimes;
-        }
+            //处理网络需求
+            //TODO: 处理积累的细胞放置需求
+            MapManager.getInstance().executeAllTask();
 
-        //处理地图保存，如果可行的话
-        if(tickTimes - saveTimes >= GameInfo.TicksPerEvolution){
-            try {
-                MapManager.getInstance().saveAllArea();
-            } catch (IOException e) {
-                Log(Importance.WARNING, "Cannot save the game map currently, because: " + e.getMessage());
-                Log(Importance.WARNING, "This may cause your game recently lost...");
+            //处理地图更新，如果可行的话
+            if (tickTimes - updateTimes >= GameInfo.TicksPerEvolution) {
+                MapManager.getInstance().updateMap();
+                updateTimes = tickTimes;
+                Log(Importance.DEBUG, "[Ticker] Updated Map!!!");
             }
-            saveTimes = tickTimes;
+
+            //处理地图保存，如果可行的话
+            if (tickTimes - saveTimes >= GameInfo.TicksPerSave) {
+                try {
+                    MapManager.getInstance().saveAllArea();
+                    Log(Importance.DEBUG, "[Ticker] Saved Areas!!!");
+                } catch (IOException e) {
+                    Log(Importance.WARNING, "Cannot save the game map currently, because: " + e.getMessage());
+                    Log(Importance.WARNING, "This may cause your game recently lost...");
+                }
+                saveTimes = tickTimes;
+            }
+            //更新tick计时器，以便下一轮更新和保存功能使用
+            tickTimes++;
+            //提醒看门狗，程序没有卡住
+            WatchDog.getInstance().inform();
+            //等待，直到满足最高tps的要求
+            while (System.currentTimeMillis() - timeStamp < (1000L / (double) GameInfo.MaxTicksPerSecond)) {}
         }
-        //Make the tick counter update
-        tickTimes ++;
-        //等待，直到满足最高tps的要求
-        while(System.currentTimeMillis() - timeStamp < (1000d / (double) GameInfo.MaxTicksPerSecond));
     }
 }

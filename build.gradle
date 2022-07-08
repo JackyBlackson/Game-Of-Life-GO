@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.32'
 }
 
 jar {
@@ -8,18 +11,31 @@ jar {
     }
 }
 
-group 'org.example'
+group 'com.jackyblackson'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
+    maven {
+        url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
+    }
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.32'
+    implementation 'com.github.almasb:fxgl:17.1'
+}
+
+javafx {
+    version = "18"
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.media' ]
 }
 
 test {
     useJUnitPlatform()
 }
+
+mainClassName = 'com.jackyblackson.gameoflifego.client.main.GameOfLIifeGoApp'

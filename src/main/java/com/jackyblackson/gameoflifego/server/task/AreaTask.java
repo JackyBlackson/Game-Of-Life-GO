@@ -1,6 +1,6 @@
 package com.jackyblackson.gameoflifego.server.task;
 
-import com.jackyblackson.gameoflifego.server.info.Pos;
+import com.jackyblackson.gameoflifego.shared.common.Pos;
 
 public abstract class AreaTask extends Task {
     public Pos areaPos;
