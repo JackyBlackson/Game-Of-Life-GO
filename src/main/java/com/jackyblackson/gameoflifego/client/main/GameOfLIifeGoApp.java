@@ -129,6 +129,7 @@ public class GameOfLIifeGoApp extends GameApplication {
         settings.setHeight(1080);
         settings.setTitle("Game of Life: GO");
         settings.setVersion("V0.1.0 - INNER DEVELOPER");
+        settings.setManualResizeEnabled(true);
 
 
         // 启用主界面菜单

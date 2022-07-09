@@ -58,6 +58,10 @@ public class Pos implements Serializable {
         return new Pos(this.posX, this.posY + shift);
     }
 
+    public Pos scaledBy(double scale){
+        return new Pos(this.posX / scale, this.posY / scale);
+    }
+
     public static Pos getChunkPos(Pos worldPos){
         return new Pos((Math.floor(worldPos.getX() / 16.0)), Math.floor(worldPos.getY() / 16.0));
     }
