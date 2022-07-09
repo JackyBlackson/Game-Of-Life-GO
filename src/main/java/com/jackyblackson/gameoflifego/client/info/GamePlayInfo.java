@@ -10,10 +10,10 @@ public class GamePlayInfo {
 
     public String ip = "localhost";
     public int port = 26575;
-    public float scaling = 32.0f;
+    public float scaling = 24.0f;
     public float movingSpeed = 1.14514f;
 
-    public Player player;
+    public Player player = new Player("Jacky_Blackson", "11ff88");
 
     private GamePlayInfo(){}
 

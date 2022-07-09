@@ -31,6 +31,8 @@ import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 import java.util.Iterator;
 
+import static com.almasb.fxgl.dsl.FXGLForKtKt.loopBGM;
+
 public class GameOfLIifeGoApp extends GameApplication {
     long ticks = 0;
 
@@ -72,6 +74,8 @@ public class GameOfLIifeGoApp extends GameApplication {
         new TileFactory().build(new Cell(worldPos, player), worldPos);
         worldPos = new Pos(20.0, 17.0);
         new TileFactory().build(new Cell(worldPos, player), worldPos);
+
+        loopBGM("Marconi_Union_Weightless.mp3");
     }
 
     @Override
