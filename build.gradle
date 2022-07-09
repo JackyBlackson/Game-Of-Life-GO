@@ -7,7 +7,7 @@ plugins {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.jackyblackson.gameoflifego.server.main.TestServerMain'
+        attributes 'Main-Class': 'com.jackyblackson.gameoflifego.server.main.ServerMain'
     }
 }
 

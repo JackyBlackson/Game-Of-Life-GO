@@ -42,8 +42,7 @@ public class MainMenu extends FXGLMenu {
         title.setStroke(Color.WHITESMOKE);
         title.setStrokeWidth(1.5);
 
-        var gameStory = getUIFactoryService().newText("2021年12月21日，江西财经大学软件与物联网工程学院正式结课\n与此同时，软件学院的同学们即将面临 的是期末周！\n接踵而来的专业课考试让平时划水的小宗与小旭十分头疼\n他们决定在仅剩的时间中恶补，可" +
-                "面对他们的却是女娲补天\n大难临头，他们究竟能否到达学完所有科目顺利通过期末考试呢...", Color.WHITE, FontType.GAME, 20);
+        var gameStory = getUIFactoryService().newText("Tempus Fugit!", Color.WHITE, FontType.GAME, 30);
         gameStory.setStroke(Color.WHITESMOKE);
         gameStory.setLineSpacing(5.0);
         gameStory.setStrokeWidth(1.0);

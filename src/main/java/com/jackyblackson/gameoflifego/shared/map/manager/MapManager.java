@@ -41,6 +41,10 @@ public class MapManager {
         return instance;
     }
 
+    public Iterator<Area> getAreas(){
+        return managedAreaHashMap.values().iterator();
+    }
+
     public void appendArea(Area a) {
         managedAreaHashMap.put(a.getAreaPos().toString(), a);
     }
@@ -61,16 +65,21 @@ public class MapManager {
         String s = SaveInfo.getDirForArea(a);
         File f = new File(s);
         //如果输出的文件夹不存在
-        if (!f.exists()) {
-            f.createNewFile();
+        try {
+            if (!f.exists()) {
+                f.getParentFile().mkdir();
+                f.createNewFile();
+            }
+            //写入序列化的Area类并保存
+            FileOutputStream fileOut = new FileOutputStream(s);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(a);
+            //关闭流
+            out.close();
+            fileOut.close();
+        } catch (Exception ex){
+            Log(Importance.SEVERE, "[SAVE AREA] Cannot save area in file: " + f.getAbsolutePath() + ", because: " + ex.getMessage());
         }
-        //写入序列化的Area类并保存
-        FileOutputStream fileOut = new FileOutputStream(s);
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(a);
-        //关闭流
-        out.close();
-        fileOut.close();
     }
 
     public void saveArea(Pos areaPos) throws IOException {

@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.jackyblackson.gameoflifego.server.main.TestServerMain
+Main-Class: com.jackyblackson.gameoflifego.server.main.ServerMain
 
