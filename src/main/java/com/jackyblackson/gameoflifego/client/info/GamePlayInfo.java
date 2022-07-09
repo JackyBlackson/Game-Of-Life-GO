@@ -13,7 +13,7 @@ public class GamePlayInfo {
     public float scaling = 24.0f;
     public float movingSpeed = 1.14514f;
 
-    public Player player = new Player("Jacky_Blackson", "11ff88");
+    public Player player = new Player("Jacky_Blackson", "11ffff");
 
     private GamePlayInfo(){}
 

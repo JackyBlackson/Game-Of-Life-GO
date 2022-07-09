@@ -38,7 +38,7 @@ public class TileFactory {
 
             eb = new EntityBuilder()
                     .at(scaledPos.getX(), scaledPos.getY())
-                    .viewWithBBox(canvas)
+                    .view(canvas)
                     .type(TileType.CELL)
                     .anchorFromCenter()
                     .build();
@@ -55,7 +55,7 @@ public class TileFactory {
             gc.fillOval(0.1 * scaling,  0.1 * scaling,  0.8 * scaling,  0.8 * scaling); //inner circle
 
             eb = new EntityBuilder()
-                    .viewWithBBox(canvas)
+                    .view(canvas)
                     .at(scaledPos.getX(), scaledPos.getY())
                     .type(TileType.WATER)
                     .build();
@@ -71,7 +71,7 @@ public class TileFactory {
             gc.fillOval(0.1 * scaling,  0.1 * scaling,  0.8 * scaling,  0.8 * scaling); //inner circle
 
             eb = new EntityBuilder()
-                    .viewWithBBox(canvas)
+                    .view(canvas)
                     .at(scaledPos.getX(), scaledPos.getY())
                     .type(TileType.ASTEROID)
                     .build();
@@ -87,7 +87,7 @@ public class TileFactory {
             gc.fillOval(0.1 * scaling,  0.1 * scaling,  0.8 * scaling,  0.8 * scaling); //inner circle
 
             eb = new EntityBuilder()
-                    .viewWithBBox(canvas)
+                    .view(canvas)
                     .at(scaledPos.getX(), scaledPos.getY())
                     .type(TileType.ASTEROID)
                     .build();
@@ -103,7 +103,7 @@ public class TileFactory {
             gc.fillOval(0.1 * scaling,  0.1 * scaling,  0.8 * scaling,  0.8 * scaling); //inner circle
 
             eb = new EntityBuilder()
-                    .viewWithBBox(canvas)
+                    .view(canvas)
                     .at(scaledPos.getX(), scaledPos.getY())
                     .type(TileType.ASTEROID)
                     .build();
