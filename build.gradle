@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
@@ -7,12 +8,15 @@ plugins {
 
 jar {
     manifest {
+        //com.jackyblackson.gameoflifego.client.main.GameOfLIifeGoApp
+        //com.jackyblackson.gameoflifego.server.main.ServerMain
         attributes 'Main-Class': 'com.jackyblackson.gameoflifego.server.main.ServerMain'
     }
 }
 
 group 'com.jackyblackson'
 version '1.0-SNAPSHOT'
+archivesBaseName = 'jar-name'
 
 repositories {
     mavenCentral()
@@ -27,6 +31,20 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.32'
     implementation 'com.github.almasb:fxgl:17.1'
+}
+
+
+shadowJar {
+    baseName = 'Game_Of_Life_Go'
+    classifier = null
+    version = "1.0.0"
+    zip64 = true
+
+    manifest {
+        //com.jackyblackson.gameoflifego.client.main.GameOfLIifeGoApp
+        //com.jackyblackson.gameoflifego.server.main.ServerMain
+        attributes 'Main-Class': 'com.jackyblackson.gameoflifego.client.main.GameOfLIifeGoApp'
+    }
 }
 
 javafx {

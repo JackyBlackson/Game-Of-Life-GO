@@ -26,19 +26,16 @@ public class WatchDog implements Runnable{
     public void run() {
         Log(Importance.INFO, "[Watch Dog] Watch dog launch: WOOF WOOF WOOF WOOF WOOF!");
 
+        TCPServer.getInstance().isGameEnd = false;
+
         Thread mapTicking = new Thread(new Ticker());
         mapTicking.setDaemon(true);
         mapTicking.setName("TICKER");
         mapTicking.start();
 
-        Thread tcpTicking = new Thread(TCPServer.getInstance());
-        tcpTicking.setDaemon(true);
-        tcpTicking.setName("SERVER_QUERY");
-        tcpTicking.start();
-
         Thread accept = new Thread(Accepter.getInstance());
         accept.setDaemon(true);
-        mapTicking.setName("ACCEPTER");
+        accept.setName("ACCEPTER");
         accept.start();
 
         //等一下其他线程，5s

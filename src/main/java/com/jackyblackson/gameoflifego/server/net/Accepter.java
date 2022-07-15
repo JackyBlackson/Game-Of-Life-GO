@@ -40,7 +40,11 @@ public class Accepter implements Runnable{
                 //不断监听，如果有连接那么直接添加
                 Socket acceptedSocket = serverSocket.accept();
                 Log(Importance.INFO, "[Accepter] Accepting new connection from [" + acceptedSocket.toString());
-                TCPServer.getInstance().getClients().add(new ClientSocket(acceptedSocket));
+                Thread clientThread = new Thread(new ClientSocket(acceptedSocket));
+                clientThread.setName(acceptedSocket.getRemoteSocketAddress().toString());
+                clientThread.setDaemon(true);
+                clientThread.setPriority(10);
+                clientThread.start();
             } catch (Exception e){
                 Log(Importance.SEVERE, "[Accepter] CANNOT CONNECT TO CLIENT, BECAUSE: " + e.getMessage());
             }

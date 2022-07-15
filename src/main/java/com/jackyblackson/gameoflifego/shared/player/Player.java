@@ -1,5 +1,7 @@
 package com.jackyblackson.gameoflifego.shared.player;
 
+import com.jackyblackson.gameoflifego.client.info.GamePlayInfo;
+import com.jackyblackson.gameoflifego.server.info.GameInfo;
 import com.jackyblackson.gameoflifego.shared.common.Importance;
 import com.jackyblackson.gameoflifego.shared.common.Utility;
 
@@ -40,6 +42,16 @@ public class Player implements Serializable {
     private long amountOfCarbon;
     private long amountOfOxygen;
 
+    private long score;
+
+    public void setScore(long score) {
+        this.score = score;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
     public long getCells() {
         return cells;
     }
@@ -76,6 +88,18 @@ public class Player implements Serializable {
 
     public void addCell(long amount){
         this.cells += amount;
+    }
+
+    public void addAmountOfWater(long amount){
+        this.amountOfWater += amount;
+    }
+
+    public void addAmountOfCarbon(long amount){
+        this.amountOfCarbon += amount;
+    }
+
+    public void addAmountOfOxygen(long amount){
+        this.amountOfOxygen += amount;
     }
 
     public double getColorR(){
@@ -118,16 +142,17 @@ public class Player implements Serializable {
     }
 
     public String getStatistics(){
-        return new StringBuilder()
-                .append(cells)
-                .append(";")
-                .append(amountOfCarbon)
-                .append(";")
-                .append(amountOfWater)
-                .append(";")
-                .append(amountOfOxygen)
-                .toString()
-                ;
+        return cells +
+                ";" +
+                amountOfCarbon +
+                ";" +
+                amountOfWater +
+                ";" +
+                amountOfOxygen +
+                ";" +
+                score +
+                ";" +
+                GameInfo.MaxEvolution;
     }
 
 }

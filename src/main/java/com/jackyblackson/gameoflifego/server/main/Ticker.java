@@ -1,8 +1,10 @@
 package com.jackyblackson.gameoflifego.server.main;
 
 import com.jackyblackson.gameoflifego.server.info.GameInfo;
+import com.jackyblackson.gameoflifego.server.net.TCPServer;
 import com.jackyblackson.gameoflifego.shared.common.Importance;
 import com.jackyblackson.gameoflifego.shared.map.manager.MapManager;
+import com.jackyblackson.gameoflifego.shared.player.PlayerSet;
 
 import java.io.IOException;
 
@@ -21,16 +23,24 @@ public class Ticker implements Runnable{
         while(true) {//更新当前的时间戳，（开始计时）
             this.timeStamp = System.currentTimeMillis();
 
+            if(GameInfo.MaxEvolution <= 0){
+                TCPServer.getInstance().isGameEnd = true;
+            }
+
             //处理网络需求
             //TODO: 处理积累的细胞放置需求
-            MapManager.getInstance().executeAllTask();
+            MapManager.getInstance().executeNetTask();
 
             //处理地图更新，如果可行的话
             if (tickTimes - updateTimes >= GameInfo.TicksPerEvolution) {
                 MapManager.getInstance().updateMap();
-                updateTimes = tickTimes;
                 Log(Importance.DEBUG, "[Ticker] Updated Map!!!");
+                updateTimes = tickTimes;
+                GameInfo.MaxEvolution--;
             }
+
+            //重新计算分数
+            PlayerSet.getInstance().calculateScore();
 
             //处理地图保存，如果可行的话
             if (tickTimes - saveTimes >= GameInfo.TicksPerSave) {
@@ -48,7 +58,7 @@ public class Ticker implements Runnable{
             //提醒看门狗，程序没有卡住
             WatchDog.getInstance().inform();
             //等待，直到满足最高tps的要求
-            while (System.currentTimeMillis() - timeStamp < (1000L / (double) GameInfo.MaxTicksPerSecond)) {}
+            while ((System.currentTimeMillis() - timeStamp) < (1000.0d / (double) GameInfo.MaxTicksPerSecond)) {}
         }
     }
 }

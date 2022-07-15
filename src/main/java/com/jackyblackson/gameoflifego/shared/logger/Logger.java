@@ -22,8 +22,8 @@ public class Logger {
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
             raf.seek(raf.length());
             if (GameInfo.ShowDebugInfo || imp != Importance.DEBUG) {
-                raf.writeBytes("[" + currentTime + "] " + "[" + imp.toString() + "] " + text + "\r\n");
-                System.out.println("[" + currentTime + "] " + "[" + imp.toString() + "] " + text + "\r\n");
+                raf.writeBytes("[" + currentTime + "] [" + Thread.currentThread().getName() + "] [" + imp.toString() + "] " + text + "\r\n");
+                System.out.println("[" + currentTime + "] [" + Thread.currentThread().getName() + "] [" + imp.toString() + "] " + text + "\r\n");
             }
         } catch (IOException ex){
             System.out.println(ex.getLocalizedMessage());

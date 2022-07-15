@@ -33,7 +33,7 @@ public class TestServerMain {
 
 
 
-        Player player = new Player("Jacky_Blackson", "FFFFFF");
+        Player player = new Player("Jacky_Blackson", "11ffff");
         MapManager.getInstance().setTileAt(new Cell(new Pos(0.0, 0.0), player));
         MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 0.0), player));
         MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 0.0), player));

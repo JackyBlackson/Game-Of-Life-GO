@@ -4,6 +4,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.jackyblackson.gameoflifego.shared.common.Pos;
 import com.jackyblackson.gameoflifego.shared.map.chunk.Chunk;
 
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -13,14 +14,15 @@ import java.util.Set;
 public class ChunkWithEntity {
     Chunk chunk;
     Pos chunkPos;
-    Set<Entity> entitySet;
+    HashMap<String, Entity> entitySet;
 
     public ChunkWithEntity(Chunk chunk){
         this.chunk = chunk;
         this.chunkPos = chunk.getChunkPos();
+        this.entitySet = new HashMap<>();
     }
 
-    public Set<Entity> getEntitySet() {
+    public HashMap<String, Entity> getEntitySet() {
         return entitySet;
     }
 }

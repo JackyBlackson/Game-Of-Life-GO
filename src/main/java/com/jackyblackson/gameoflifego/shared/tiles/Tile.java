@@ -24,9 +24,9 @@ public abstract class Tile implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        Log(Importance.INFO, "Tile.Equals!");
-
-        if(obj.getClass() == this.getClass()){
+        //Log(Importance.INFO, "Tile.Equals!");
+        //Log(Importance.NOTICE, "[Tile.equals] (" + obj.getClass().toString() + ") v.s. (" + this.getClass().toString() + ")");
+        if(obj.getClass().toString().equals(this.getClass().toString())){
             if(((Tile) obj).getWorldPos().equals(this.worldPos)){
                 if (this instanceof Cell){
                     if(((Cell) this).getOwner().getName().equals(((Cell) obj).getOwner().getName())){
@@ -43,5 +43,23 @@ public abstract class Tile implements Serializable {
         } else {
             return false;
         }
+    }
+
+    public static boolean isTileChange(Tile oldTile, Tile newTile){
+        if(newTile instanceof Cell newCell){
+            if(!(oldTile instanceof Cell oldCEll)){     //从其他种类变为细胞
+                return true;
+            } else {                            //从细胞变为细胞
+                if(oldCEll.getOwner().getName().equals(newCell.getOwner().getName())){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        else if (newTile instanceof Vacuum && oldTile instanceof Cell){ //从细胞变为真空
+            return true;
+        }
+        else return false;
     }
 }

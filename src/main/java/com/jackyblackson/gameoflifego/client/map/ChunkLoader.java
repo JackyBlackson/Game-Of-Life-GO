@@ -1,5 +1,6 @@
 package com.jackyblackson.gameoflifego.client.map;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.jackyblackson.gameoflifego.client.factories.TileFactory;
 import com.jackyblackson.gameoflifego.shared.common.Pos;
 import com.jackyblackson.gameoflifego.shared.map.area.Area;
@@ -21,8 +22,9 @@ public class ChunkLoader {
             for(int y = 0; y < 16; y+=1){
                 Tile t = chunk.getTileAt(x, y);
                 if(t != null){
-                    var e = new TileFactory().build(t, Pos.getWorldPos(chunkPos, new Pos((double) x, (double) y)));
-                    chunkWithEntity.getEntitySet().add(e);
+                    var e = new TileFactory().build(t, t.getWorldPos());
+                    FXGL.getGameWorld().addEntity(e);
+                    chunkWithEntity.getEntitySet().put(t.getWorldPos().toString(), e);
                 }
             }
         }

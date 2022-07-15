@@ -3,6 +3,8 @@ package com.jackyblackson.gameoflifego.shared.map.chunk;
 import com.jackyblackson.gameoflifego.shared.common.Importance;
 import com.jackyblackson.gameoflifego.shared.common.Pos;
 import com.jackyblackson.gameoflifego.shared.map.manager.MapManager;
+import com.jackyblackson.gameoflifego.shared.player.Player;
+import com.jackyblackson.gameoflifego.shared.player.PlayerSet;
 import com.jackyblackson.gameoflifego.shared.tiles.*;
 
 import java.io.Serializable;
@@ -30,11 +32,11 @@ public class Chunk implements Serializable {
     //access tile at a pos
     public Tile getTileAt(int xInChunk, int yInChunk) {
         try {
-            Log(Importance.DEBUG, "[Chunk.getTileAT] The tile now at chunk (" + chunkPos + ").(" + xInChunk + "," + yInChunk + ") is " + this.tiles[xInChunk][yInChunk]);
+            //Log(Importance.DEBUG, "[Chunk.getTileAT] The tile now at chunk (" + chunkPos + ").(" + xInChunk + "," + yInChunk + ") is " + this.tiles[xInChunk][yInChunk]);
             return (this.tiles[xInChunk][yInChunk]);
         } catch (Exception ex) {
-            Log(Importance.DEBUG, "[Chunk.getTileAT] The tile now at chunk (" + chunkPos + ").(" + xInChunk + "," + yInChunk + ") is NULL");
-            Log(Importance.SEVERE, ex.getMessage() + ex.getStackTrace());
+            //Log(Importance.DEBUG, "[Chunk.getTileAT] The tile now at chunk (" + chunkPos + ").(" + xInChunk + "," + yInChunk + ") is NULL");
+            //Log(Importance.SEVERE, ex.getMessage() + ex.getStackTrace());
             return null;
         }
     }
@@ -47,10 +49,7 @@ public class Chunk implements Serializable {
             tile.setWorldPos(worldPos);
             tiles[xInChunk][yInChunk] = tile;
             //Log(Importance.DEBUG, "[Chunk.setTileAT] The tile now at chunk (" + chunkPos + ").(" + xInChunk + "," + yInChunk + ") is " + this.tiles[xInChunk][yInChunk]);
-            if (tile instanceof Cell) {
-                MapManager.getInstance().nCellList.add((Cell) tile);
-                Log(Importance.DEBUG, "[Chunk.setTileAT] Added one cell to the CELLLIST");
-            }
+
         } catch (Exception ex) {
             Log(Importance.SEVERE, ex.getMessage() + ex.getStackTrace());
             return;

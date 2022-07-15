@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +34,15 @@ public class GameInfo {
 
     public static long MaxTickLength = 60000;
 
+    public static long MaxEvolution = 300;
+
     public static void loadGameInfo(String path) throws Exception {
+        if(!new File("Config").exists())
+            new File("Config").mkdir();
+
+        if((!new File("Config/game.properties").exists()) || !new File("Config/worldgen.properties").exists())
+            Files.copy(new File("resources/config").toPath(), new File("Config").toPath());
+
         loadGameInfoFromFile(path);
         WorldGenInfo.loadProperties("Config/worldgen.properties");
         //Preparing folders for the game when starting
@@ -86,6 +95,7 @@ public class GameInfo {
         TicksPerSave = Integer.parseInt(gameProperties.getProperty("TicksPerSave"));
         ServerPort = Integer.parseInt((gameProperties.getProperty("ServerPort")));
         MaxTickLength = Long.parseLong(gameProperties.getProperty("MaxTickLength"));
+        MaxEvolution = Long.parseLong(gameProperties.getProperty("MaxEvolution"));
 
         bufferedReader.close();
     }

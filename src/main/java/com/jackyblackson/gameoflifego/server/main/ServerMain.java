@@ -7,7 +7,9 @@ import com.jackyblackson.gameoflifego.server.info.WorldGenInfo;
 import com.jackyblackson.gameoflifego.server.net.Accepter;
 import com.jackyblackson.gameoflifego.server.net.TCPServer;
 import com.jackyblackson.gameoflifego.shared.map.manager.MapManager;
+import com.jackyblackson.gameoflifego.shared.player.Player;
 import com.jackyblackson.gameoflifego.shared.player.PlayerSet;
+import com.jackyblackson.gameoflifego.shared.tiles.Cell;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,11 +30,6 @@ public class ServerMain {
         Log(Importance.INFO, "[Main Thread] Starting GAME OF LIFE: GO server...");
         Log(Importance.INFO, "[Main Thread] Starting GAME OF LIFE: GO server...");
         //加载几个单实例类的实例变量
-        MapManager.getInstance();
-        WatchDog.getInstance();
-        TCPServer.getInstance();
-        Accepter.getInstance();
-        PlayerSet.getInstance();
         loadGameInfo();
         try {
             Thread.sleep(1000);
@@ -44,6 +41,7 @@ public class ServerMain {
         Log(Importance.INFO, "[Main Thread] Generating chunks for the map...");
         Log(Importance.INFO, "[Main Thread] Generating chunks for the map...");
         firstGen();
+        //setTestCell();
 
         //Launching
         Log(Importance.INFO, "[Main Thread] Now launching server...");
@@ -81,5 +79,21 @@ public class ServerMain {
             }
         }
         MapManager.getInstance().saveMap();
+    }
+
+    private static void setTestCell(){
+        Player player = new Player("Jacky_Blackson", "11ffff");
+        MapManager.getInstance().setTileAt(new Cell(new Pos(0.0, 0.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 0.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 0.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 1.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 1.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 2.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 2.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 3.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 3.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(-2.0, 4.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(2.0, 4.0), player));
+        MapManager.getInstance().setTileAt(new Cell(new Pos(0.0, 4.0), player));
     }
 }
